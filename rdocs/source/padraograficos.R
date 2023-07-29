@@ -179,7 +179,7 @@ ggplot(class_trans, aes(x = Var1, y = Freq, fill = Var2)) +
 ggsave("colunas-bi-fill.pdf", width = 158, height = 93, units = "mm")
 
 ### >>> 1.3.7 Bivariado com porcentagem ====
-view(mpg)
+
 trans_class <- table(mpg$trans, mpg$class) %>%
   data.frame() %>%
   mutate(Pct = Freq / sum(Freq))
@@ -216,7 +216,9 @@ contagem <- mpg %>%
   summarise(Freq = n()) %>%
   mutate(Prop = round(100 * (Freq / sum(Freq)), 2)) %>%
   arrange(desc(drv)) %>%
-  mutate(posicao = cumsum(Prop) - 0.5 * Prop)
+  mutate(posicao = cumsum(Prop) - 0.5 * Prop,
+         ymax = cumsum(data$fraction),
+         ymin = c(0, head(data$ymax, n=-1)))
 
 ggplot(contagem) +
   aes(
@@ -235,7 +237,15 @@ ggplot(contagem) +
   )
 ggsave("setor.pdf", width = 158, height = 93, units = "mm")
 
-view(mpg)
+# Gráfico de roskinha kkk ----
+
+ggplot(contagem, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=drv)) +
+  geom_rect() +
+  coord_polar(theta="y") + 
+  xlim(c(2, 4)) + 
+  theme_estat() + 
+  theme_void()
+
 # > 3. Boxplot ====
 ## >> 3.1 Univariado ====
 ggplot(mpg) +
@@ -266,7 +276,7 @@ ggplot(mpg) +
   theme_estat()
 ggsave("box_bi.pdf", width = 158, height = 93, units = "mm")
 
-view(mpg)
+
 
 
 # > 4. Histograma ====
@@ -387,3 +397,4 @@ ggplot(dados) +
   scale_colour_manual(name = "Produto", labels = c("A", "B")) +
   labs(x = "Ano", y = "Preço") +
   theme_estat()
+
