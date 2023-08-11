@@ -1,9 +1,9 @@
-# > 0. Carregando pacotes ====
+# 0. Carregando pacotes ----
 source("packages.R")
 
-# > 1. Barras/Colunas ====
-## >> 1.1 Colunas com duas frequências ====
-### >>> 1.1.1 Univariado ====
+# 1. Barras/Colunas ----
+# 1.1 Colunas com duas frequências ----
+# 1.1.1 Univariado ----
 classes <- mpg %>%
   filter(!is.na(class)) %>%
   count(class) %>%
@@ -32,7 +32,7 @@ ggplot(classes) +
 
 ggsave("colunas-uni-freq.pdf", width = 158, height = 93, units = "mm")
 
-### >>> 1.1.2 Bivariado ====
+# 1.1.2 Bivariado ----
 trans_drv <- mpg %>%
   mutate(trans = case_when(
     trans %>% str_detect("auto") ~ "auto",
@@ -65,8 +65,8 @@ ggplot(trans_drv) +
   theme_estat()
 ggsave("colunas-bi-freq.pdf", width = 158, height = 93, units = "mm")
 
-## >> 1.2 Barras com duas frequências ====
-### >>> 1.2.1 Univariado ====
+# 1.2 Barras com duas frequências ----
+# 1.2.1 Univariado ----
 
 ggplot(classes) +
   aes(
@@ -86,7 +86,7 @@ ggplot(classes) +
   coord_flip()
 ggsave("barras-uni-freq.pdf", width = 158, height = 93, units = "mm")
 
-### >>> 1.2.2 Bivariado ====
+# 1.2.2 Bivariado ----
 class_drv <- mpg %>%
   group_by(class, drv) %>%
   summarise(freq = n()) %>%
@@ -115,8 +115,8 @@ ggplot(class_drv) +
 
 ggsave("barras-bi-freq.pdf", width = 158, height = 93, units = "mm")
 
-## >> 1.3 Colunas ====
-### >>> 1.3.1 Univariado ====
+# 1.3 Colunas ----
+# 1.3.1 Univariado ----
 ggplot(mpg) +
   aes(x = class) +
   geom_bar(fill = "#A11D21") +
@@ -124,7 +124,7 @@ ggplot(mpg) +
   theme_estat()
 ggsave("colunas-uni-freq.pdf", width = 158, height = 93, units = "mm")
 
-### >>> 1.3.2 Univariado com porcentagem no gráfico e no eixo
+# 1.3.2 Univariado com porcentagem no gráfico e no eixo
 ggplot(mpg) +
   aes(x = class) +
   geom_bar(aes(y = prop.table(..count..) * 100), fill = "#A11D21") +
@@ -138,7 +138,7 @@ ggplot(mpg) +
   theme_estat()
 ggsave("colunas-uni-percent.pdf", width = 158, height = 93, units = "mm")
 
-### >>> 1.3.3 Univariado com porcentagem no gráfico e freq absoluta no eixo ====
+# 1.3.3 Univariado com porcentagem no gráfico e freq absoluta no eixo ----
 ggplot(mpg$class %>% vector_frequencies()) +
   aes(
     x = groups,
@@ -151,7 +151,7 @@ ggplot(mpg$class %>% vector_frequencies()) +
   theme_estat()
 ggsave("colunas-uni-freq-percent.pdf", width = 158, height = 93, units = "mm")
 
-### >>> 1.3.4 Bivariado com dodge ====
+# 1.3.4 Bivariado com dodge ----
 class_trans <- as.data.frame(table(mpg$class, mpg$trans))
 ggplot(class_trans) +
   aes(x = Var1, y = Freq, fill = Var2) +
@@ -161,7 +161,7 @@ ggplot(class_trans) +
   theme_estat()
 ggsave("colunas-bi-dodge.pdf", width = 158, height = 93, units = "mm")
 
-### >>> 1.3.5 Bivariado com stack ====
+# 1.3.5 Bivariado com stack ----
 ggplot(class_trans, aes(x = Var1, y = Freq, fill = Var2)) +
   geom_bar(stat = "identity", position = "stack") +
   scale_fill_manual(name = "Transmissão") +
@@ -170,7 +170,7 @@ ggplot(class_trans, aes(x = Var1, y = Freq, fill = Var2)) +
 ggsave("colunas-bi-stack.pdf", width = 158, height = 93, units = "mm")
 
 
-### >>> 1.3.6 Bivariado com fill ====
+# 1.3.6 Bivariado com fill ----
 ggplot(class_trans, aes(x = Var1, y = Freq, fill = Var2)) +
   geom_bar(stat = "identity", position = "fill") +
   scale_fill_manual(name = "Transmissão") +
@@ -178,7 +178,7 @@ ggplot(class_trans, aes(x = Var1, y = Freq, fill = Var2)) +
   theme_estat()
 ggsave("colunas-bi-fill.pdf", width = 158, height = 93, units = "mm")
 
-### >>> 1.3.7 Bivariado com porcentagem ====
+# 1.3.7 Bivariado com porcentagem ----
 
 trans_class <- table(mpg$trans, mpg$class) %>%
   data.frame() %>%
@@ -206,11 +206,11 @@ ggplot(trans_class) +
   theme_estat()
 ggsave("colunas-bivariado-percent.pdf", width = 158, height = 93, units = "mm")
 
-## >>> 1.4 Barras ====
+# 1.4 Barras ----
 # Basta adicionar coord_flip() nos códigos para Colunas
 
-# > 2. Setores ====
-## >> 2.1 Com porcentagem ====
+# 2. Setores ----
+# 2.1 Com porcentagem ----
 contagem <- mpg %>%
   group_by(drv) %>%
   summarise(Freq = n()) %>%
@@ -246,8 +246,8 @@ ggplot(contagem, aes(ymax=ymax, ymin=ymin, xmax=4, xmin=3, fill=drv)) +
   theme_estat() + 
   theme_void()
 
-# > 3. Boxplot ====
-## >> 3.1 Univariado ====
+# 3. Boxplot ----
+# 3.1 Univariado ----
 ggplot(mpg) +
   aes(
     x = factor(""),
@@ -262,7 +262,7 @@ ggplot(mpg) +
   theme_estat()
 ggsave("box_uni.pdf", width = 158, height = 93, units = "mm")
 
-## >> 3.2 Bivariado ====
+# 3.2 Bivariado ----
 ggplot(mpg) +
   aes(
     x = trans,
@@ -279,8 +279,8 @@ ggsave("box_bi.pdf", width = 158, height = 93, units = "mm")
 
 
 
-# > 4. Histograma ====
-## >> 4.1 Univariado ====
+# 4. Histograma ----
+# 4.1 Univariado ----
 ggplot(mpg) +
   aes(x = cty) +
   geom_histogram(colour = "white", fill = "#A11D21", binwidth = 7) +
@@ -288,7 +288,7 @@ ggplot(mpg) +
   theme_estat()
 ggsave("hist_uni.pdf", width = 158, height = 93, units = "mm")
 
-## >> 4.2 Univariado em porcentagem ====
+# 4.2 Univariado em porcentagem ----
 ggplot(mpg) +
   aes(x = cty) +
   geom_histogram(
@@ -301,7 +301,7 @@ ggplot(mpg) +
   theme_estat()
 ggsave("hist_uni_porc.pdf", width = 158, height = 93, units = "mm")
 
-## >> 4.3 Bivariado com facet grid ====
+# 4.3 Bivariado com facet grid ----
 ggplot(mpg) +
   aes(x = cty) +
   geom_histogram(colour = "white", fill = "#A11D21", binwidth = 7) +
@@ -314,8 +314,8 @@ ggplot(mpg) +
   )
 ggsave("hist_grid.pdf", width = 200, height = 93, units = "mm")
 
-# > 5. Dispersão ====
-## >> 5.1 Univariado com poucos pontos sobrepostos ====
+# 5. Dispersão ----
+# 5.1 Univariado com poucos pontos sobrepostos ----
 ggplot(mpg, aes(x = cty, y = hwy)) +
   geom_point(colour = "#A11D21", size = 3) +
   labs(
@@ -324,8 +324,8 @@ ggplot(mpg, aes(x = cty, y = hwy)) +
   ) +
   theme_estat()
 
-## >> 5.2 Univariado com muitos pontos sobrepostos ====
-### >>> 5.2.1 geom_jitter ====
+# 5.2 Univariado com muitos pontos sobrepostos ----
+# 5.2.1 geom_jitter ----
 ggplot(mpg, aes(x = cyl, y = cty)) +
   geom_jitter(colour = "#A11D21", size = 3) +
   labs(
@@ -334,7 +334,7 @@ ggplot(mpg, aes(x = cyl, y = cty)) +
   ) +
   theme_estat()
 
-### >>> 5.2.2 Alpha ====
+# 5.2.2 Alpha ----
 ggplot(mpg, aes(x = cyl, y = cty)) +
   geom_point(
     colour = "#A11D21",
@@ -347,7 +347,7 @@ ggplot(mpg, aes(x = cyl, y = cty)) +
   ) +
   theme_estat()
 
-## >> 5.3 Bivariado ====
+# 5.3 Bivariado ----
 mpg$trans <- factor(substr(mpg$trans, 1, nchar(mpg$trans) - 4))
 
 ggplot(mpg, aes(x = cty, y = hwy)) +
@@ -362,7 +362,7 @@ ggplot(mpg, aes(x = cty, y = hwy)) +
   ) +
   theme_estat()
 
-# > 6. Linhas ====
+# 6. Linhas ----
 dados <- tibble(
   ano = c(
     "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014",
@@ -381,7 +381,7 @@ dados <- tibble(
   )
 )
 
-## >> 6.1 Univariado ====
+# 6.1 Univariado ----
 ggplot(dados) +
   aes(x = ano, y = preco, group = 1) +
   geom_line(size = 1, colour = "#A11D21") +
@@ -389,7 +389,7 @@ ggplot(dados) +
   labs(x = "Ano", y = "Preço") +
   theme_estat()
 
-## >> 6.2 Bivariado ====
+# 6.2 Bivariado ----
 ggplot(dados) +
   aes(x = ano, y = preco, group = produto, colour = produto) +
   geom_line(size = 1) +
@@ -398,3 +398,36 @@ ggplot(dados) +
   labs(x = "Ano", y = "Preço") +
   theme_estat()
 
+# 7.0 Diagrama de Sankey ----
+
+prop <- mpg |>
+  select(trans,class) |>
+  count(trans, class) |>
+  mutate(proptot = prop.table(n))
+
+# Caso seja necessário ordenar os fatores, utilize a linha abaixo; além de remover
+# os # do código ggplot abaixo para o filtro funcionar.
+
+# fct_lvl <- c("Muito","Médio","Pouco","Nada")
+
+p_load(ggalluvial)
+
+ggplot(as.data.frame(prop),
+       aes(y = proptot, axis1 = factor(trans
+                                       #,level=fct_lvl
+       ), axis2 = factor(class
+                         #,level=fct_lvl
+       ))) +
+  geom_alluvium(aes(fill = factor(trans
+                                  #,level=fct_lvl
+  )), width = 1/12,alpha=.8,show.legend = FALSE) +
+  geom_stratum(width = 1/12, fill = "#A11D21", colour = "black",alpha=1) +
+  geom_label(stat = "stratum", infer.label = TRUE) +
+  scale_x_discrete(limits = c("Trans", "Class"),
+                   expand = c(.05, .05),
+                   labels = c("Trans", "Class")) +
+  scale_fill_manual(values = cores_estat) +
+  scale_y_continuous(labels = NULL,
+                     name = NULL,
+                     breaks = NULL) + theme_estat()
+ggsave("diagrama_de_sankey.pdf", width = 158, height = 93, units = "mm") 
