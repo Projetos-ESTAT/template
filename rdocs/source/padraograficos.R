@@ -431,3 +431,23 @@ ggplot(as.data.frame(prop),
                      name = NULL,
                      breaks = NULL) + theme_estat()
 ggsave("diagrama_de_sankey.pdf", width = 158, height = 93, units = "mm") 
+
+# 8.0 Matriz de correlação ----
+
+p_load(Hmisc,corrplot)
+
+dados <- mpg |> # utilizar apenas valores numéricos!
+  select(displ,year,cyl,cty,hwy)
+res <- rcorr(as.matrix(dados))
+
+# 8.1 Explorar os parâmetros: desta forma, as correlações insignificantes (<0.05) ficam de fora ----
+corrplot(res2$r, type="upper", order="hclust", 
+         p.mat = res2$P, sig.level = 0.05, insig = "blank")
+
+# 8.2 Desta forma, ficam com um X ----
+corrplot(res2$r, type="upper", order="hclust", 
+         p.mat = res2$P, sig.level = 0.05)
+
+# 8.3 Desta forma, inverte o triângulo ----
+corrplot(res2$r, type="lower", order="hclust", 
+         p.mat = res2$P, sig.level = 0.05, insig = "blank")
