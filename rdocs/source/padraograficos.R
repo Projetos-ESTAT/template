@@ -217,8 +217,8 @@ contagem <- mpg %>%
   mutate(Prop = round(100 * (Freq / sum(Freq)), 2)) %>%
   arrange(desc(drv)) %>%
   mutate(posicao = cumsum(Prop) - 0.5 * Prop,
-         ymax = cumsum(data$fraction),
-         ymin = c(0, head(data$ymax, n=-1)))
+         ymax = cumsum(Prop),
+         ymin = c(0, head(ymax, n=-1)))
 
 ggplot(contagem) +
   aes(
@@ -438,7 +438,7 @@ p_load(Hmisc,corrplot)
 
 dados <- mpg |> # utilizar apenas valores numéricos!
   select(displ,year,cyl,cty,hwy)
-res <- rcorr(as.matrix(dados))
+res2 <- rcorr(as.matrix(dados))
 
 # 8.1 Explorar os parâmetros: desta forma, as correlações insignificantes (<0.05) ficam de fora ----
 corrplot(res2$r, type="upper", order="hclust", 
@@ -451,3 +451,54 @@ corrplot(res2$r, type="upper", order="hclust",
 # 8.3 Desta forma, inverte o triângulo ----
 corrplot(res2$r, type="lower", order="hclust", 
          p.mat = res2$P, sig.level = 0.05, insig = "blank")
+
+# 9.0 Treemap ----
+
+p_load(ggfittext,treemapify)
+
+cars <- mtcars
+cars$carname <- rownames(cars)
+cars <- mutate(cars, cyl = factor(cyl))
+
+ggplot(cars, aes(area = disp, fill = cyl, label = carname)) +
+  geom_treemap() +
+  geom_treemap_text(
+    fontface = "italic",
+    colour = "white",
+    place = "centre",
+    grow = TRUE
+  ) + 
+  theme_estat()
+
+# 10.0 Clusters ----
+# 10.1 K-means ----
+# Gráficos necessários para visualização de clusterização k-means
+
+data("mtcars")
+df <- scale(mtcars)
+
+p_load(factoextra)
+
+# Graficar o número ótimo de clusters pelo método de elbow ----
+fviz_nbclust(df, kmeans, 
+             method = "wss", # soma de quadrados totais
+             k.max = 10, # máximo de clusters
+             nboot = 1000, # Máximo de bootstraps
+             barfill = "#A11D21",
+             barcolor = "#A11D21",
+             linecolor = "#A11D21") +
+  geom_vline(xintercept = 4, linetype = 2) +
+  theme_estat()
+
+set.seed(150167636)
+km.res=kmeans(df, 4, nstart=25)
+
+aggregate(mtcars, by=list(cluster=km.res$cluster), mean)
+mtcars2 <- cbind(mtcars, cluster=km.res$cluster)
+
+# Visualizando os clusters
+fviz_cluster(km.res, data=mtcars2,
+             ellipse.type="euclid",
+             star.plot=TRUE,
+             repel=TRUE,
+             ggtheme=theme_estat())
