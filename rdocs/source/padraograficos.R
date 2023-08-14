@@ -30,7 +30,7 @@ ggplot(classes) +
   labs(x = "manufacturer", y = "Frequência") +
   theme_estat()
 
-ggsave("colunas-uni-freq.pdf", width = 158, height = 93, units = "mm")
+#ggsave("colunas-uni-freq.pdf", width = 158, height = 93, units = "mm")
 
 # 1.1.2 Bivariado ----
 trans_drv <- mpg %>%
@@ -63,7 +63,7 @@ ggplot(trans_drv) +
   ) +
   labs(x = "Transmissão", y = "Frequência") +
   theme_estat()
-ggsave("colunas-bi-freq.pdf", width = 158, height = 93, units = "mm")
+#ggsave("colunas-bi-freq.pdf", width = 158, height = 93, units = "mm")
 
 # 1.2 Barras com duas frequências ----
 # 1.2.1 Univariado ----
@@ -84,7 +84,7 @@ ggplot(classes) +
   labs(x = "manufacturer", y = "Frequência") +
   theme_estat() +
   coord_flip()
-ggsave("barras-uni-freq.pdf", width = 158, height = 93, units = "mm")
+#ggsave("barras-uni-freq.pdf", width = 158, height = 93, units = "mm")
 
 # 1.2.2 Bivariado ----
 class_drv <- mpg %>%
@@ -113,7 +113,7 @@ ggplot(class_drv) +
   scale_y_continuous(name = "Speed of cars", limits = c(0, 60)) +
   coord_flip()
 
-ggsave("barras-bi-freq.pdf", width = 158, height = 93, units = "mm")
+#ggsave("barras-bi-freq.pdf", width = 158, height = 93, units = "mm")
 
 # 1.3 Colunas ----
 # 1.3.1 Univariado ----
@@ -122,7 +122,7 @@ ggplot(mpg) +
   geom_bar(fill = "#A11D21") +
   labs(x = "Classe do automóvel", y = "Frequência") +
   theme_estat()
-ggsave("colunas-uni-freq.pdf", width = 158, height = 93, units = "mm")
+#ggsave("colunas-uni-freq.pdf", width = 158, height = 93, units = "mm")
 
 # 1.3.2 Univariado com porcentagem no gráfico e no eixo
 ggplot(mpg) +
@@ -136,7 +136,7 @@ ggplot(mpg) +
   ) +
   labs(x = "Classe do automóvel", y = "Frequência Relativa") +
   theme_estat()
-ggsave("colunas-uni-percent.pdf", width = 158, height = 93, units = "mm")
+#ggsave("colunas-uni-percent.pdf", width = 158, height = 93, units = "mm")
 
 # 1.3.3 Univariado com porcentagem no gráfico e freq absoluta no eixo ----
 ggplot(mpg$class %>% vector_frequencies()) +
@@ -149,7 +149,7 @@ ggplot(mpg$class %>% vector_frequencies()) +
   geom_text(vjust = -0.5, size = 4) +
   labs(x = "Classe do automóvel", y = "Frequência") +
   theme_estat()
-ggsave("colunas-uni-freq-percent.pdf", width = 158, height = 93, units = "mm")
+#ggsave("colunas-uni-freq-percent.pdf", width = 158, height = 93, units = "mm")
 
 # 1.3.4 Bivariado com dodge ----
 class_trans <- as.data.frame(table(mpg$class, mpg$trans))
@@ -159,7 +159,7 @@ ggplot(class_trans) +
   scale_fill_manual(name = "Transmissão") +
   labs(x = "Classe do automóvel", y = "Frequência") +
   theme_estat()
-ggsave("colunas-bi-dodge.pdf", width = 158, height = 93, units = "mm")
+#ggsave("colunas-bi-dodge.pdf", width = 158, height = 93, units = "mm")
 
 # 1.3.5 Bivariado com stack ----
 ggplot(class_trans, aes(x = Var1, y = Freq, fill = Var2)) +
@@ -167,7 +167,7 @@ ggplot(class_trans, aes(x = Var1, y = Freq, fill = Var2)) +
   scale_fill_manual(name = "Transmissão") +
   labs(x = "Classe do automóvel", y = "Frequência") +
   theme_estat()
-ggsave("colunas-bi-stack.pdf", width = 158, height = 93, units = "mm")
+#ggsave("colunas-bi-stack.pdf", width = 158, height = 93, units = "mm")
 
 
 # 1.3.6 Bivariado com fill ----
@@ -176,7 +176,7 @@ ggplot(class_trans, aes(x = Var1, y = Freq, fill = Var2)) +
   scale_fill_manual(name = "Transmissão") +
   labs(x = "Classe do automóvel", y = "Frequência") +
   theme_estat()
-ggsave("colunas-bi-fill.pdf", width = 158, height = 93, units = "mm")
+#ggsave("colunas-bi-fill.pdf", width = 158, height = 93, units = "mm")
 
 # 1.3.7 Bivariado com porcentagem ----
 
@@ -204,7 +204,7 @@ ggplot(trans_class) +
   ) +
   labs(x = "Classe do Automóvel", y = "Frequência Relativa") +
   theme_estat()
-ggsave("colunas-bivariado-percent.pdf", width = 158, height = 93, units = "mm")
+#ggsave("colunas-bivariado-percent.pdf", width = 158, height = 93, units = "mm")
 
 # 1.4 Barras ----
 # Basta adicionar coord_flip() nos códigos para Colunas
@@ -235,7 +235,7 @@ ggplot(contagem) +
     aes(x = 1.8, y = posicao, label = paste0(Prop, "%")),
     color = "black"
   )
-ggsave("setor.pdf", width = 158, height = 93, units = "mm")
+#ggsave("setor.pdf", width = 158, height = 93, units = "mm")
 
 # Gráfico de roskinha kkk ----
 
@@ -260,7 +260,7 @@ ggplot(mpg) +
   ) +
   labs(x = "", y = "Consumo em Cidade (milhas/galão)") +
   theme_estat()
-ggsave("box_uni.pdf", width = 158, height = 93, units = "mm")
+#ggsave("box_uni.pdf", width = 158, height = 93, units = "mm")
 
 # 3.2 Bivariado ----
 ggplot(mpg) +
@@ -274,7 +274,7 @@ ggplot(mpg) +
   ) +
   labs(x = "Transmissão", y = "Consumo em Cidade (milhas/galão)") +
   theme_estat()
-ggsave("box_bi.pdf", width = 158, height = 93, units = "mm")
+#ggsave("box_bi.pdf", width = 158, height = 93, units = "mm")
 
 
 
@@ -286,7 +286,7 @@ ggplot(mpg) +
   geom_histogram(colour = "white", fill = "#A11D21", binwidth = 7) +
   labs(x = "Consumo em Cidade (milhas/galão)", y = "Frequência Absoluta") +
   theme_estat()
-ggsave("hist_uni.pdf", width = 158, height = 93, units = "mm")
+#ggsave("hist_uni.pdf", width = 158, height = 93, units = "mm")
 
 # 4.2 Univariado em porcentagem ----
 ggplot(mpg) +
@@ -299,7 +299,7 @@ ggplot(mpg) +
   ) +
   labs(x = "Consumo em Cidade (milhas/galão)", y = "Porcentagem") +
   theme_estat()
-ggsave("hist_uni_porc.pdf", width = 158, height = 93, units = "mm")
+#ggsave("hist_uni_porc.pdf", width = 158, height = 93, units = "mm")
 
 # 4.3 Bivariado com facet grid ----
 ggplot(mpg) +
@@ -312,7 +312,7 @@ ggplot(mpg) +
     strip.text = element_text(size = 12),
     strip.background = element_rect(colour = "black", fill = "white")
   )
-ggsave("hist_grid.pdf", width = 200, height = 93, units = "mm")
+#ggsave("hist_grid.pdf", width = 200, height = 93, units = "mm")
 
 # 5. Dispersão ----
 # 5.1 Univariado com poucos pontos sobrepostos ----
@@ -430,7 +430,7 @@ ggplot(as.data.frame(prop),
   scale_y_continuous(labels = NULL,
                      name = NULL,
                      breaks = NULL) + theme_estat()
-ggsave("diagrama_de_sankey.pdf", width = 158, height = 93, units = "mm") 
+#ggsave("diagrama_de_sankey.pdf", width = 158, height = 93, units = "mm") 
 
 # 8.0 Matriz de correlação ----
 
@@ -491,7 +491,7 @@ fviz_nbclust(df, kmeans,
   theme_estat()
 
 set.seed(150167636)
-km.res=kmeans(df, 4, nstart=25)
+km.res <- kmeans(df, 4, nstart=25)
 
 aggregate(mtcars, by=list(cluster=km.res$cluster), mean)
 mtcars2 <- cbind(mtcars, cluster=km.res$cluster)
