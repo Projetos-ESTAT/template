@@ -502,3 +502,19 @@ fviz_cluster(km.res, data=mtcars2,
              star.plot=TRUE,
              repel=TRUE,
              ggtheme=theme_estat())
+
+# 11. Radar ----
+
+devtools::install_github("ricardo-bion/ggradar", 
+                         dependencies = TRUE)
+library(ggradar)
+
+mtcars_radar <- mtcars |>
+  rownames_to_column(var = "group") |>
+  mutate(across(-group, ~ rescale(.))) |>
+  tail(5) |> # "Indivíduos" demais deixam este gráfico bem feio. Ideal utilizar em torno de 5.
+  select(1:10) # "Categorias" demais também poluem este gráfico. Ideal utilizar em torno de 10.
+
+ggradar(mtcars_radar) +
+  scale_colour_manual(values = cores_estat) # A função de tema da estat não fica muito legal com esse gráfico; talvez seja melhor não utilizar..
+  #theme_estat() 
