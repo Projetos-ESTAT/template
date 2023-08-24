@@ -603,7 +603,7 @@ df <- df |>
 set.seed(150167636) 
 wordcloud(words = df$word, freq = df$freq, min.freq = 2,
           max.words=200, random.order=FALSE, rot.per=0.35, # Ajuste o parâmetro max.words conforme necessidade. O máximo é 200.
-          colors=cores_estat)
+          colors=rev(cores_estat))
 
 #write.table(filtro,"filtradas.txt",row.names = F,col.names = F)
 
