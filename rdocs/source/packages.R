@@ -7,6 +7,8 @@ pacman::p_load(
 )
 windowsFonts(Arial=windowsFont("sans"))
 
+options(scipen=999)
+
 # Definindo paleta de cores da Estat
 cores_estat <- c(
   "#A11D21", "#003366", "#CC9900", "#663333", "#FF6600",
@@ -29,7 +31,11 @@ theme_estat <- function(...) {
     list(
       theme,
       scale_fill_manual(values = cores_estat),
-      scale_colour_manual(values = cores_estat)
+      scale_colour_manual(values = cores_estat),
+      scale_y_continuous(
+        labels = scales::number_format(decimal.mark = ',',
+                                       #                                       accuracy = 0.01,
+                                       big.mark = "."))
     )
   )
 }
