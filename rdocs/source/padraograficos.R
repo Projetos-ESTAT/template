@@ -608,4 +608,51 @@ wordcloud(words = df$word, freq = df$freq, min.freq = 2,
 #write.table(filtro,"filtradas.txt",row.names = F,col.names = F)
 
 # ---------------------------------------------------------------------------- #
+# 13 - Pirâmide ----
+
+# Dado: tabela de contingência, como no formato abaixo:
+data <- mpg |> mutate(trans = ifelse(str_detect(trans,"auto"),"auto","manual")) %>%
+  mutate(trans = factor(trans),
+         class = factor(class)) |>
+  group_by(trans,class) |>
+  tally()
+data
+
+# O gráfico:
+ggplot(data, aes(x = fct_reorder(class, n, .desc = F), fill = trans,
+                   y = ifelse(test = trans == "auto", yes = -n, no = n))) +
+  geom_bar(stat = "identity") + # a partir daqui é a parte de legenda. como vai para os dois lados, tem de ser adicionado individualmente, o que pode ser um pouco chato.
+  geom_text(data = ~subset(., trans=="auto" & class == "2seater"),
+             aes(label = n), hjust = 1.2, size=3) +
+  geom_text(data = ~subset(., trans=="auto" & class == "compact"),
+           aes(label = n), hjust = 1.2, size=3) + 
+  geom_text(data = ~subset(., trans=="auto" & class == "midsize"),
+           aes(label = n), hjust = 1.2, size=3) + 
+  geom_text(data = ~subset(., trans=="auto" & class == "minivan"),
+           aes(label = n), hjust = 1.2, size=3) +
+  geom_text(data = ~subset(., trans=="auto" & class == "pickup"),
+            aes(label = n), hjust = 1.2, size=3) +
+  geom_text(data = ~subset(., trans=="auto" & class == "subcompact"),
+            aes(label = n), hjust = 1.2, size=3) +
+  geom_text(data = ~subset(., trans=="auto" & class == "suv"),
+            aes(label = n), hjust = 1.2, size=3) +  
+  geom_text(data = ~subset(., trans=="manual" & class == "2seater"),
+            aes(label = n), hjust = -.3, size=3) +
+  geom_text(data = ~subset(., trans=="manual" & class == "compact"),
+            aes(label = n), hjust = -.3, size=3) + 
+  geom_text(data = ~subset(., trans=="manual" & class == "midsize"),
+            aes(label = n), hjust = -.3, size=3) + 
+  geom_text(data = ~subset(., trans=="manual" & class == "minivan"),
+            aes(label = n), hjust = -.3, size=3) +
+  geom_text(data = ~subset(., trans=="manual" & class == "pickup"),
+            aes(label = n), hjust = -.3, size=3) +
+  geom_text(data = ~subset(., trans=="manual" & class == "subcompact"),
+            aes(label = n), hjust = -.3, size=3) +
+  geom_text(data = ~subset(., trans=="manual" & class == "suv"),
+            aes(label = n), hjust = -.3, size=3) +
+  labs(title = "", x = "", y = "") +
+  coord_flip() +
+  theme_estat(axis.text.x = element_blank()) + # Zeramos o eixo x, pois os valores negativos nao fariam sentido.
+  scale_y_continuous(limits = max(data$n) * c(-1,1)) 
+#ggsave("piramide.pdf", width = 158, height = 93, units = "mm")
 
