@@ -656,3 +656,66 @@ ggplot(data, aes(x = fct_reorder(class, n, .desc = F), fill = trans,
   scale_y_continuous(limits = max(data$n) * c(-1,1)) 
 #ggsave("piramide.pdf", width = 158, height = 93, units = "mm")
 
+# 14 Gráfico coroplético ----
+
+# Dados DF ----
+df = read_neighborhood()
+df <- df |> filter(abbrev_state == "DF") |> select(name_subdistrict,geom)
+
+# Esta é a coluna em que você irá inserir os dados da análise: ----
+# obs: não mexer no restante
+df$n = rpois(nrow(df),100)
+
+df$label = paste0(df$name_subdistrict,sep = " \n ",df$n)
+
+# Dados BR ----
+df2 = read_state()
+df2 <- df2 |> select(name_state,geom)
+
+# Esta é a coluna em que você irá inserir os dados da análise: ----
+# obs: não mexer no restante
+df2$n = rpois(nrow(df2),100)
+
+df2$label = paste0(df2$name_state,sep = " \n ",df2$n)
+
+# Gráfico DF ----
+ggplot(df) +
+  geom_sf(data=df,
+          aes(fill=n),
+          color = "gray",
+          size=.15) +
+  geom_label_repel(
+    aes(label = label,
+        geometry = geom),
+    stat = "sf_coordinates",
+    min.segment.length = 0,
+    size = 2,
+    max.overlaps = 1000) +
+  labs(fill='Número de (...)',
+       #       subtitle="Título",
+       size=4) +
+  scale_fill_gradient(low = "#fae8e6", high = "#A11D21", na.value = NA)+
+  theme_void() +
+  no_axis
+#ggsave("coropletico_df.pdf", width = 158, height = 93, units = "mm")
+
+# Gráfico BR ----
+ggplot(df2) +
+  geom_sf(data=df2,
+          aes(fill=n),
+          color = "gray",
+          size=.15) +
+  geom_label_repel(
+    aes(label = label,
+        geometry = geom),
+    stat = "sf_coordinates",
+    min.segment.length = 0,
+    size = 2,
+    max.overlaps = 1000) +
+  labs(fill='Número de (...)',
+       #       subtitle="Título",
+       size=4) +
+  scale_fill_gradient(low = "#fae8e6", high = "#A11D21", na.value = NA)+
+  theme_void() +
+  no_axis
+#ggsave("coropletico_br.pdf", width = 158, height = 93, units = "mm")

@@ -4,7 +4,8 @@ pacman::p_load(
   tidyverse, data.table,
   readxl, readr, ggcorrplot, cowplot,
   RColorBrewer, scales, nortest, xlsx,
-  skimr,xtable
+  skimr,xtable,geobr,sf,ggrepel,
+  abjutils,grDevices
 )
 
 windowsFonts(Arial=windowsFont("sans"))
@@ -102,3 +103,8 @@ quadro <- function(dados,t=T){
 
   print(xtable(tabela, type = "latex"), include.rownames=rn)
 }
+
+# Remover eixos do gráfico coroplético
+no_axis <- theme(axis.title=element_blank(),
+                 axis.text=element_blank(),
+                 axis.ticks=element_blank())
